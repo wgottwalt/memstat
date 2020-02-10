@@ -1,6 +1,6 @@
 memstat - little tool to show memory usage of all processes
 
-This is just a little, dirty hack to collect data from the /proc/<pid>/smaps
+This is just a little, dirty hack to collect data from the /proc/PID/smaps
 files to get a quick overview of the memory usage.
 
 It's written using C++17 and concepts. You you run into trouble using concepts,
