@@ -1,4 +1,4 @@
-memstat - little tool to show memory usage of all process
+memstat - little tool to show memory usage of all processes
 
 This is just a little, dirty hack to collect data from the /proc/<pid>/smaps
 files to get a quick overview of the memory usage.
