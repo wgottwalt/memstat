@@ -22,6 +22,7 @@
 #include <iostream>
 #include <memory>
 #include <string>
+#include <string_view>
 #include <type_traits>
 #include <vector>
 
@@ -196,33 +197,34 @@ ShProc getProcessData(const std::filesystem::path &pid_dir)
             while (std::getline(ifile, line))
             {
                 std::stringstream strm(line);
+                std::string_view view(line);
 
-                if (line.substr(0, 6) == "Shared")
+                if (view.substr(0, 6) == "Shared")
                 {
                     strm >> junk >> shared;
                     process.shared += shared;
                 }
-                else if (line.substr(0, 7) == "Private")
+                else if (view.substr(0, 7) == "Private")
                 {
                     strm >> junk >> priv;
                     process.priv += priv;
                 }
-                else if (line.substr(0, 3) == "Rss")
+                else if (view.substr(0, 3) == "Rss")
                 {
                     strm >> junk >> rss;
                     process.rss += rss;
                 }
-                else if (line.substr(0, 3) == "Pss")
+                else if (view.substr(0, 3) == "Pss")
                 {
                     strm >> junk >> pss;
                     process.pss += pss;
                 }
-                else if (line.substr(0, 5) == "Swap:")
+                else if (view.substr(0, 5) == "Swap:")
                 {
                     strm >> junk >> swap;
                     process.swap += swap;
                 }
-                else if (line.substr(0, 8) == "SwapPss:")
+                else if (view.substr(0, 8) == "SwapPss:")
                 {
                     strm >> junk >> swap_pss;
                     process.swap_pss += swap_pss;
