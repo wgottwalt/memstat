@@ -147,8 +147,7 @@ void parseCommandLine(const int32_t argc, char **argv, Config &config)
 ShProc getProcessData(const std::filesystem::path &pid_dir)
 {
     const std::filesystem::directory_entry comm(pid_dir.string() + "/comm");
-//    const std::filesystem::directory_entry statm(pid_dir.string() + "/statm");
-    const std::filesystem::directory_entry smaps(pid_dir.string() + "/smaps");
+    std::filesystem::directory_entry smaps(pid_dir.string() + "/smaps_rollup");
     Process process = { "", 0, 0, 0, 0, 0, 0 };
 
     if (comm.exists() && comm.is_regular_file())
@@ -160,26 +159,10 @@ ShProc getProcessData(const std::filesystem::path &pid_dir)
             ifile.close();
         }
     }
-    // XXX: really check for the statm, smaps and smaps_rollup files and deal with them properly
-#if 0
-    if (statm.exists() && statm.is_regular_file())
-    {
-        if (std::ifstream ifile(std::filesystem::path(statm).string());
-            ifile.is_open() && ifile.good())
-        {
-            std::string line;
-            std::stringstream strm;
 
-            std::getline(ifile, line);
-            ifile.close();
+    if (!smaps.exists() || !smaps.is_regular_file())
+        smaps = std::filesystem::directory_entry(pid_dir.string() + "/smaps");
 
-            strm = std::stringstream(line);
-            strm >> process.rss >> process.rss;
-
-            process.rss *= PageSize;
-        }
-    }
-#endif
     if (smaps.exists() && smaps.is_regular_file())
     {
         if (std::ifstream ifile(std::filesystem::path(smaps).string());
